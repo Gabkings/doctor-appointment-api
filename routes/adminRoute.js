@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const User = require("../models/Usersmodel");
 const Doctor = require("../models/Doctorsmodel");
-const authMiddleware = require("../middlewares/authMiddleware");
+const authMiddleware = require("../middleware/authMiddleware");
 
 router.get("/get-all-doctors", authMiddleware, async(req, res) => {
     try {
