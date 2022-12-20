@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const Doctor = require("../models/Doctorsmodel");
-const authMiddleware = require("../middlewares/authmiddleware");
+const authMiddleware = require("../middlewares/authMiddleware");
 const Appointment = require("../models/appointmentModel");
 const User = require("../models/Usersmodel");
 
