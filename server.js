@@ -5,7 +5,7 @@ const app = express()
 
 const db = require('./config/db')
 db()
-const userRoutes = require('./routes/UserRoutes')
+const userRoutes = require('./routes/User_routes')
 const adminRoute = require('./routes/AdminRoute')
 const doctorRoute = require('./routes/DoctorsRoutes')
 app.use(express.json());
