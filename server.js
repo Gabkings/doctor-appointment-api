@@ -1,9 +1,9 @@
 const express = require('express')
-const { default: connectDB } = require('./config/db')
+const { default: connectDB } = require('./config/Db')
 require('dotenv').config()
 const app = express()
 
-const db = require('./config/db')
+const db = require('./config/Db')
 db()
 const userRoutes = require('./routes/Userroutes')
 const adminRoute = require('./routes/Adminroute')

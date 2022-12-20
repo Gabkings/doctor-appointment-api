@@ -3,7 +3,7 @@ const router = express.Router();
 const Doctor = require("../models/doctorModel");
 const authMiddleware = require("../middlewares/Authmiddleware");
 const Appointment = require("../models/appointmentModel");
-const User = require("../models/userModel");
+const User = require("../models/UserModel");
 
 router.post("/get-doctor-info-by-user-id", authMiddleware, async(req, res) => {
     try {
