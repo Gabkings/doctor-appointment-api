@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
-const User = require("../models/UserModel");
-const Doctor = require("../models/doctorModel");
+const User = require("../models/usermodel");
+const Doctor = require("../models/DoctorModel");
 const authMiddleware = require("../middlewares/Authmiddleware");
 
 router.get("/get-all-doctors", authMiddleware, async(req, res) => {
