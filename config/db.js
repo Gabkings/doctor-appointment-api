@@ -6,7 +6,11 @@ dotenv.config();
 
 const url = process.env.MONGO_URL;
 
+console.log("+++++++++++++++++++++++++++++++++++++++++")
+console.log(url)
+
 async function connectDB() {
+    mongoose.set('strictQuery', false);
     await mongoose
         .connect(url, {
             useNewUrlParser: true,
