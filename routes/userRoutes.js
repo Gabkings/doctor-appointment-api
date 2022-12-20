@@ -4,7 +4,7 @@ const User = require("../models/userModel");
 const Doctor = require("../models/doctorModel");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const authMiddleware = require("../middlewares/authMiddleware");
+const authMiddleware = require("../middlewares/AuthMiddleWare");
 const Appointment = require("../models/appointmentModel");
 const moment = require("moment");
 
