@@ -5,9 +5,9 @@ const app = express()
 
 const db = require('./config/db')
 db()
-const userRoutes = require('./routes/Userroutes')
-const adminRoute = require('./routes/Adminroutes')
-const doctorRoute = require('./routes/Doctorsroutes')
+const userRoutes = require('./route/Userroutes')
+const adminRoute = require('./route/Adminroutes')
+const doctorRoute = require('./route/Doctorsroutes')
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use('/api/user', userRoutes)
