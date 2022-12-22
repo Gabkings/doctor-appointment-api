@@ -14,6 +14,6 @@ app.use('/api/user', userRoutes)
 app.use("/api/admin", adminRoute);
 app.use("/api/doctor", doctorRoute);
 
-const port = process.env.PORT | 5000
+const port = process.env.PORT || 5000
 
 app.listen(port, () => console.log('Server running at port ' + port))
