@@ -238,7 +238,7 @@ router.post("/check-booking-avilability", authMiddleware, async(req, res) => {
     } catch (error) {
         console.log(error);
         res.status(500).send({
-            message: "Error booking appointment",
+            message: "Error checking booking appointment",
             success: false,
             error,
         });

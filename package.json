@@ -4,7 +4,7 @@
     "description": "This is a doctor appointment restful api developed using node , express and mongodb",
     "main": "index.js",
     "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1"
+        "test": "mocha 'tests/**/*.js' --timeout 100000"
     },
     "repository": {
         "type": "git",
@@ -26,5 +26,13 @@
         "moment": "^2.29.4",
         "mongoose": "^6.7.1",
         "nodemon": "^2.0.20"
+    },
+    "devDependencies": {
+        "chai": "^4.3.7",
+        "chai-http": "^4.3.0",
+        "mocha": "^10.2.0",
+        "should": "^13.2.3",
+        "superagent": "^8.0.6",
+        "supertest": "^6.3.3"
     }
 }

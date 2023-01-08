@@ -4,7 +4,7 @@ const User = require("../models/Usersmodel");
 const Doctor = require("../models/Doctorsmodel");
 const authMiddleware = require("../middleware/authMiddleware");
 
-router.get("/get-all-doctors", authMiddleware, async(req, res) => {
+router.get("https://obscure-mesa-07404.herokuapp.com/get-all-doctors", authMiddleware, async(req, res) => {
     try {
         const doctors = await Doctor.find({});
         res.status(200).send({
@@ -22,7 +22,7 @@ router.get("/get-all-doctors", authMiddleware, async(req, res) => {
     }
 });
 
-router.get("/get-all-users", authMiddleware, async(req, res) => {
+router.get("https://obscure-mesa-07404.herokuapp.com/get-all-users", authMiddleware, async(req, res) => {
     try {
         const users = await User.find({});
         res.status(200).send({
@@ -41,7 +41,7 @@ router.get("/get-all-users", authMiddleware, async(req, res) => {
 });
 
 router.post(
-    "/change-doctor-account-status",
+    "https://obscure-mesa-07404.herokuapp.com/change-doctor-account-status",
     authMiddleware,
     async(req, res) => {
         try {
