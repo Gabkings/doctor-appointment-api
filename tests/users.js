@@ -155,7 +155,7 @@ describe("Test Users Authenticated requests", () => {
         const userId = { userId: '63b978942416d973244a9881' };
         chai.request(server)
 
-        .post("/get-user-info-by-id")
+        .post("/api/user/get-user-info-by-id")
             .send(userId)
             .end((err, response) => {
                 response.should.have.status(200);
