@@ -103,17 +103,41 @@ http://localhost:5000
 
 ## API Documentation
 
-Swagger documentation is available at:
+Swagger documentation is available in two environments:
+
+### Local development
 
 ```bash
 http://localhost:5000/api-docs
 ```
 
-The raw OpenAPI JSON can also be accessed at:
+Local Swagger UI screenshot:
+
+![Local Swagger UI](docs/images/local-swagger.png)
+
+> Place your screenshot image in the docs/images folder and name it local-swagger.png.
+
+Raw OpenAPI JSON:
 
 ```bash
 http://localhost:5000/api-docs.json
 ```
+
+### Deployed version
+
+If the project is deployed on Vercel, the Swagger UI can be accessed at:
+
+```bash
+https://doctor-appointment-api-puce.vercel.app/api-docs
+```
+
+Raw OpenAPI JSON for the deployed version:
+
+```bash
+https://doctor-appointment-api-puce.vercel.app/api-docs.json
+```
+
+> Use the deployed URL when testing the live API, and the local URL during development.
 
 ## Main API Endpoints
 

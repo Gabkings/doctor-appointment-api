@@ -1,4 +1,5 @@
 const express = require('express')
+const cors = require('cors')
 require('dotenv').config()
 const app = express()
 
@@ -10,6 +11,12 @@ const doctorRoute = require('./route/Doctorsroutes')
 const { swaggerUi, swaggerSpec } = require('./swagger')
 const swaggerUiDistPath = require('swagger-ui-dist').getAbsoluteFSPath()
 
+app.use(cors({
+  origin: ['http://localhost:3000', 'http://localhost:4200', 'http://127.0.0.1:3000', 'http://127.0.0.1:4200'],
+  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true,
+}))
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use('/swagger-ui-dist', express.static(swaggerUiDistPath))
