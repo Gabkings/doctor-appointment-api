@@ -11,18 +11,16 @@ console.log(url)
 
 async function connectDB() {
     mongoose.set('strictQuery', false);
-    await mongoose
-        .connect(url, {
+    try {
+        await mongoose.connect(url, {
             useNewUrlParser: true,
             useUnifiedTopology: true,
-        })
-        .then(() => {
-            console.log("Connected to the database!");
-        })
-        .catch((err) => {
-            console.log("Cannot connect to the database!", err);
-            process.exit();
         });
+        console.log("Connected to the database!");
+    } catch (err) {
+        console.log("Cannot connect to the database!", err);
+        console.log("Continuing without a database connection so the API docs remain available.");
+    }
 }
 
 

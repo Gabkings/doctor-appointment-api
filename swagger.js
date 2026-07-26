@@ -71,6 +71,36 @@ const swaggerDefinition = {
           status: { type: 'string', example: 'approved' },
         },
       },
+      BookAppointmentInput: {
+        type: 'object',
+        required: ['doctorId', 'date', 'time', 'doctorInfo', 'userInfo'],
+        properties: {
+          doctorId: { type: 'string', example: '64f1a2b3c4d5e6f7890abcde' },
+          doctorInfo: { type: 'object', example: { userId: '64f1a2b3c4d5e6f7890abcde' } },
+          userInfo: { type: 'object', example: { name: 'John Doe' } },
+          date: { type: 'string', example: '11-12-2022' },
+          time: { type: 'string', example: '10:00' },
+        },
+      },
+      AvailabilityInput: {
+        type: 'object',
+        required: ['doctorId', 'date', 'time'],
+        properties: {
+          doctorId: { type: 'string', example: '64f1a2b3c4d5e6f7890abcde' },
+          date: { type: 'string', example: '11-12-2022' },
+          time: { type: 'string', example: '10:00' },
+        },
+      },
+      DoctorProfileUpdateInput: {
+        type: 'object',
+        properties: {
+          userId: { type: 'string', example: '64f1a2b3c4d5e6f7890abcde' },
+          firstName: { type: 'string', example: 'Doctor' },
+          lastName: { type: 'string', example: 'One' },
+          phoneNumber: { type: 'string', example: '08012345678' },
+          address: { type: 'string', example: 'Lagos, Nigeria' },
+        },
+      },
     },
   },
   paths: {
@@ -151,6 +181,77 @@ const swaggerDefinition = {
         },
       },
     },
+    '/api/user/get-user-info-by-id': {
+      post: {
+        tags: ['Users'],
+        summary: 'Fetch a user profile by ID',
+        security: [{ bearerAuth: [] }],
+        responses: {
+          200: { description: 'User info fetched successfully' },
+          401: { description: 'Unauthorized' },
+        },
+      },
+    },
+    '/api/user/get-all-approved-doctors': {
+      get: {
+        tags: ['Users'],
+        summary: 'Get all approved doctors',
+        security: [{ bearerAuth: [] }],
+        responses: {
+          200: { description: 'Doctors fetched successfully' },
+          401: { description: 'Unauthorized' },
+        },
+      },
+    },
+    '/api/user/book-appointment': {
+      post: {
+        tags: ['Users'],
+        summary: 'Book an appointment',
+        security: [{ bearerAuth: [] }],
+        requestBody: {
+          required: true,
+          content: {
+            'application/json': {
+              schema: { $ref: '#/components/schemas/BookAppointmentInput' },
+            },
+          },
+        },
+        responses: {
+          200: { description: 'Appointment booked successfully' },
+          401: { description: 'Unauthorized' },
+        },
+      },
+    },
+    '/api/user/check-booking-avilability': {
+      post: {
+        tags: ['Users'],
+        summary: 'Check appointment availability',
+        security: [{ bearerAuth: [] }],
+        requestBody: {
+          required: true,
+          content: {
+            'application/json': {
+              schema: { $ref: '#/components/schemas/AvailabilityInput' },
+            },
+          },
+        },
+        responses: {
+          200: { description: 'Availability checked successfully' },
+          401: { description: 'Unauthorized' },
+        },
+      },
+    },
+    '/api/user/get-appointments-by-user-id': {
+      get: {
+        tags: ['Users'],
+        summary: 'Get appointments for the authenticated user',
+        security: [{ bearerAuth: [] }],
+        responses: {
+          200: { description: 'Appointments fetched successfully' },
+          401: { description: 'Unauthorized' },
+        },
+      },
+    },
     '/api/admin/get-all-doctors': {
       get: {
         tags: ['Admin'],
@@ -199,6 +300,47 @@ const swaggerDefinition = {
         security: [{ bearerAuth: [] }],
         responses: {
           200: { description: 'Doctor info fetched successfully' },
+          401: { description: 'Unauthorized' },
+        },
+      },
+    },
+    '/api/doctor/get-doctor-info-by-id': {
+      post: {
+        tags: ['Doctors'],
+        summary: 'Get doctor info by doctor ID',
+        security: [{ bearerAuth: [] }],
+        responses: {
+          200: { description: 'Doctor info fetched successfully' },
+          401: { description: 'Unauthorized' },
+        },
+      },
+    },
+    '/api/doctor/update-doctor-profile': {
+      post: {
+        tags: ['Doctors'],
+        summary: 'Update a doctor profile',
+        security: [{ bearerAuth: [] }],
+        requestBody: {
+          required: true,
+          content: {
+            'application/json': {
+              schema: { $ref: '#/components/schemas/DoctorProfileUpdateInput' },
+            },
+          },
+        },
+        responses: {
+          200: { description: 'Doctor profile updated successfully' },
+          401: { description: 'Unauthorized' },
+        },
+      },
+    },
+    '/api/doctor/get-appointments-by-doctor-id': {
+      get: {
+        tags: ['Doctors'],
+        summary: 'Get appointments for a doctor',
+        security: [{ bearerAuth: [] }],
+        responses: {
+          200: { description: 'Appointments fetched successfully' },
           401: { description: 'Unauthorized' },
         },
       },
