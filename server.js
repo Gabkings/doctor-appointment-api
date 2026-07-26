@@ -11,14 +11,24 @@ const doctorRoute = require('./route/Doctorsroutes')
 const { swaggerUi, swaggerSpec } = require('./swagger')
 const swaggerUiDistPath = require('swagger-ui-dist').getAbsoluteFSPath()
 
+const allowedOrigins = [
+  'http://localhost:3000',
+  'http://localhost:4200',
+  'http://127.0.0.1:3000',
+  'http://127.0.0.1:4200',
+  'https://doctor-appointment-pwmwpp4ys-gabkings-projects.vercel.app',
+  'https://doctor-appointment-4gn6p30cg-gabkings-projects.vercel.app',
+]
+
 app.use(cors({
-  origin: [
-    'http://localhost:3000',
-    'http://localhost:4200',
-    'http://127.0.0.1:3000',
-    'http://127.0.0.1:4200',
-    'https://doctor-appointment-pwmwpp4ys-gabkings-projects.vercel.app',
-  ],
+  origin: (origin, callback) => {
+    if (!origin || allowedOrigins.includes(origin) || /\.vercel\.app$/i.test(origin)) {
+      callback(null, true)
+      return
+    }
+
+    callback(new Error('Not allowed by CORS'))
+  },
   methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true,
