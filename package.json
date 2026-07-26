@@ -4,7 +4,8 @@
     "description": "This is a doctor appointment restful api developed using node , express and mongodb",
     "main": "index.js",
     "scripts": {
-        "test": "mocha 'tests/**/*.js' --timeout 100000"
+        "test": "mocha 'tests/**/*.js' --timeout 100000",
+        "start":" nodemon server.js"
     },
     "repository": {
         "type": "git",
