@@ -13,12 +13,19 @@ const swaggerUiDistPath = require('swagger-ui-dist').getAbsoluteFSPath()
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use('/swagger-ui-dist', express.static(swaggerUiDistPath))
+app.use('/api-docs', express.static(swaggerUiDistPath))
 
 app.get('/health', (req, res) => {
   res.status(200).json({ status: 'ok' })
 })
 
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec))
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec, {
+  customCssUrl: '/api-docs/swagger-ui.css',
+  customJs: [
+    '/api-docs/swagger-ui-bundle.js',
+    '/api-docs/swagger-ui-standalone-preset.js',
+  ],
+}))
 app.get('/api-docs.json', (req, res) => {
   res.setHeader('Content-Type', 'application/json')
   res.send(swaggerSpec)
