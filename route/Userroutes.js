@@ -34,6 +34,7 @@ router.post("/register", async(req, res) => {
 });
 
 router.post("/login", async(req, res) => {
+    const secretJwt="uud2837wu9dj9u3928urd38982192189"
     try {
         const user = await User.findOne({ email: req.body.email });
         if (!user) {
@@ -47,7 +48,7 @@ router.post("/login", async(req, res) => {
                 .status(200)
                 .send({ message: "Password is incorrect", success: false });
         } else {
-            const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+            const token = jwt.sign({ id: user._id }, secretJwt , {
                 expiresIn: "1d",
             });
             res

@@ -33,6 +33,6 @@ const userSchema = new mongoose.Schema({
     timestamps: true
 })
 
-const userModel = mongoose.model("users", userSchema)
+const userModel = mongoose.model("users_apt", userSchema)
 
 module.exports = userModel;

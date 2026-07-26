@@ -10,7 +10,14 @@ module.exports = async(req, res, next) => {
                     success: false,
                 });
             } else {
-                req.body.userId = decoded.id;
+                // Attach authenticated user info without overwriting request data
+                req.user = { id: decoded.id };
+                
+                // Only set userId if not already provided in request body
+                if (!req.body.userId) {
+                    req.body.userId = decoded.id;
+                }
+                
                 next();
             }
         });
