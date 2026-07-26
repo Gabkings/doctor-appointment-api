@@ -8,9 +8,11 @@ const userRoutes = require('./route/Userroutes')
 const adminRoute = require('./route/Adminroutes')
 const doctorRoute = require('./route/Doctorsroutes')
 const { swaggerUi, swaggerSpec } = require('./swagger')
+const swaggerUiDistPath = require('swagger-ui-dist').getAbsoluteFSPath()
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use('/swagger-ui-dist', express.static(swaggerUiDistPath))
 
 app.get('/health', (req, res) => {
   res.status(200).json({ status: 'ok' })

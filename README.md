@@ -77,7 +77,7 @@ PORT=5000
 Clone the repository:
 
 ```bash
-git clone <repository-url>
+git clone https://github.com/Gabkings/doctor-appointment-api
 cd doctor-appointment-api
 ```
 
