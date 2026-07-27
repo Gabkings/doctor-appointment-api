@@ -2,10 +2,11 @@ const express = require("express");
 const router = express.Router();
 const Doctor = require("../models/Doctorsmodel");
 const authMiddleware = require("../middleware/authMiddleware");
+const { authorizeRoles } = authMiddleware;
 const Appointment = require("../models/appointmentModel");
 const User = require("../models/Usersmodel");
 
-router.post("/get-doctor-info-by-user-id", authMiddleware, async(req, res) => {
+router.post("/get-doctor-info-by-user-id", authMiddleware, authorizeRoles("doctor", "admin"), async(req, res) => {
     try {
         const doctor = await Doctor.findOne({ userId: req.body.userId });
         res.status(200).send({
@@ -20,7 +21,7 @@ router.post("/get-doctor-info-by-user-id", authMiddleware, async(req, res) => {
     }
 });
 
-router.post("/get-doctor-info-by-id", authMiddleware, async(req, res) => {
+router.post("/get-doctor-info-by-id", authMiddleware, authorizeRoles("doctor", "admin"), async(req, res) => {
     try {
         const doctor = await Doctor.findOne({ _id: req.body.doctorId });
         res.status(200).send({
@@ -35,11 +36,10 @@ router.post("/get-doctor-info-by-id", authMiddleware, async(req, res) => {
     }
 });
 
-router.post("/update-doctor-profile", authMiddleware, async(req, res) => {
+router.post("/update-doctor-profile", authMiddleware, authorizeRoles("doctor", "admin"), async(req, res) => {
     try {
-        const doctor = await Doctor.findOneAndUpdate({ userId: req.body.userId },
-            req.body
-        );
+        const targetUserId = req.user.role === "admin" && req.body.userId ? req.body.userId : req.user.id;
+        const doctor = await Doctor.findOneAndUpdate({ userId: targetUserId }, req.body, { new: true });
         res.status(200).send({
             success: true,
             message: "Doctor profile updated successfully",
@@ -52,12 +52,37 @@ router.post("/update-doctor-profile", authMiddleware, async(req, res) => {
     }
 });
 
+router.post("/update-working-hours", authMiddleware, authorizeRoles("doctor", "admin"), async(req, res) => {
+    try {
+        const targetUserId = req.user.role === "admin" && req.body.userId ? req.body.userId : req.user.id;
+        const doctor = await Doctor.findOneAndUpdate(
+            { userId: targetUserId },
+            { timings: req.body.timings || [] },
+            { new: true }
+        );
+
+        res.status(200).send({
+            success: true,
+            message: "Working hours updated successfully",
+            data: doctor,
+        });
+    } catch (error) {
+        res.status(500).send({
+            message: "Error updating working hours",
+            success: false,
+            error,
+        });
+    }
+});
+
 router.get(
     "/get-appointments-by-doctor-id",
     authMiddleware,
+    authorizeRoles("doctor", "admin"),
     async(req, res) => {
         try {
-            const doctor = await Doctor.findOne({ userId: req.body.userId });
+            const targetUserId = req.user.role === "admin" && req.body.userId ? req.body.userId : req.user.id;
+            const doctor = await Doctor.findOne({ userId: targetUserId });
             const appointments = await Appointment.find({ doctorId: doctor._id });
             res.status(200).send({
                 message: "Appointments fetched successfully",
@@ -75,7 +100,7 @@ router.get(
     }
 );
 
-router.post("/change-appointment-status", authMiddleware, async(req, res) => {
+router.post("/change-appointment-status", authMiddleware, authorizeRoles("doctor", "admin"), async(req, res) => {
     try {
         const { appointmentId, status } = req.body;
         const appointment = await Appointment.findByIdAndUpdate(appointmentId, {

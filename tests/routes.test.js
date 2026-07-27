@@ -7,7 +7,9 @@ const Doctor = require('../models/Doctorsmodel');
 
 describe('Route endpoints', function () {
   let authToken;
+  let adminToken;
   let testUser;
+  let adminUser;
 
   before(async function () {
     await User.deleteMany({ email: { $regex: /^route-test-/ } });
@@ -23,12 +25,26 @@ describe('Route endpoints', function () {
       isDoctor: false,
     });
 
-    const loginResponse = await request(server)
+    adminUser = await User.create({
+      name: 'Route Admin User',
+      email: `route-admin-${Date.now()}@example.com`,
+      password: hashedPassword,
+      isAdmin: true,
+      isDoctor: false,
+    });
+
+    const userLoginResponse = await request(server)
       .post('/api/user/login')
       .send({ email: testUser.email, password: 'secret123' })
       .expect(200);
 
-    authToken = loginResponse.body.data;
+    const adminLoginResponse = await request(server)
+      .post('/api/user/login')
+      .send({ email: adminUser.email, password: 'secret123' })
+      .expect(200);
+
+    authToken = userLoginResponse.body.data;
+    adminToken = adminLoginResponse.body.data;
   });
 
   after(async function () {
@@ -66,10 +82,20 @@ describe('Route endpoints', function () {
     expect(response.body.data).to.be.a('string');
   });
 
-  it('should fetch all doctors for an authenticated user', async function () {
+  it('should deny a non-admin user access to admin routes', async function () {
     const response = await request(server)
       .get('/api/admin/get-all-doctors')
       .set('Authorization', `Bearer ${authToken}`)
+      .expect(403);
+
+    expect(response.body.success).to.equal(false);
+    expect(response.body.message).to.equal('Access denied');
+  });
+
+  it('should fetch all doctors for an authenticated admin', async function () {
+    const response = await request(server)
+      .get('/api/admin/get-all-doctors')
+      .set('Authorization', `Bearer ${adminToken}`)
       .expect(200);
 
     expect(response.body.success).to.equal(true);
@@ -94,7 +120,7 @@ describe('Route endpoints', function () {
 
     const response = await request(server)
       .post('/api/admin/change-doctor-account-status')
-      .set('Authorization', `Bearer ${authToken}`)
+      .set('Authorization', `Bearer ${adminToken}`)
       .send({ doctorId: doctor._id.toString(), status: 'approved' })
       .expect(200);
 
